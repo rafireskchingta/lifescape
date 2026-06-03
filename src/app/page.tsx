@@ -56,13 +56,14 @@ export default function LandingPage() {
               </Link>
             </div>
           </div>
-          <div className="relative aspect-square md:aspect-[4/3] rounded-3xl overflow-hidden bg-gradient-to-br from-green-50 to-emerald-100/50 flex items-center justify-center shadow-2xl">
-             {/* Placeholder for 3D Isometric Island */}
-             <div className="text-center">
-               <div className="text-green-800 font-semibold bg-green-50 px-6 py-12 rounded-3xl border border-green-100">
-                 [Ilustrasi Pulau 3D]
-               </div>
-             </div>
+          <div className="relative aspect-square md:aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl group">
+             <Image 
+               src="/assets/ilustrasi.jpg" 
+               alt="Ilustrasi LifeScape" 
+               fill 
+               className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+               priority
+             />
           </div>
         </div>
       </section>
