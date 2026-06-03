@@ -13,6 +13,7 @@ export async function updateProfile(formData: FormData) {
   }
 
   const username = formData.get('username') as string
+  const bio = formData.get('bio') as string | null
   const avatarFile = formData.get('avatar') as File | null
 
   let avatarUrl = undefined
@@ -45,6 +46,9 @@ export async function updateProfile(formData: FormData) {
   if (username && username.trim() !== '') {
     updates.username = username.trim()
   }
+  if (bio !== null) {
+    updates.bio = bio.trim()
+  }
   if (avatarUrl) {
     updates.avatar_url = avatarUrl
   }
@@ -53,12 +57,11 @@ export async function updateProfile(formData: FormData) {
   if (Object.keys(updates).length > 0) {
     const { error } = await supabase
       .from('profiles')
-      .update(updates)
-      .eq('id', authData.user.id)
+      .upsert({ id: authData.user.id, ...updates })
 
     if (error) {
       console.error('Error updating profile:', error)
-      throw new Error('Failed to update profile')
+      throw new Error(error.message || 'Failed to update profile')
     }
   }
 

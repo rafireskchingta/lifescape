@@ -41,7 +41,7 @@ export default function ActivityManager({ initialActivities }: { initialActiviti
   const pendingQuests = filteredActivities.filter(a => !a.completed)
   const completedQuests = filteredActivities.filter(a => a.completed)
 
-  const categories = ['All', 'Study', 'Exercise', 'Work', 'Social', 'Personal']
+  const categories = ['Semua', 'Belajar', 'Olahraga', 'Kerja', 'Sosial', 'Personal']
 
   const getCategoryIcon = (cat: string) => {
     switch (cat) {
@@ -65,44 +65,56 @@ export default function ActivityManager({ initialActivities }: { initialActiviti
   return (
     <div>
       {/* Top Bar: Search & Filters */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+      <div className="hidden md:flex justify-between items-center gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Activities Quest Log</h1>
-          <p className="text-gray-500">Manage your daily focus missions.</p>
+          <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Log Misi Aktivitas</h1>
+          <p className="text-gray-500">Kelola misi fokus harianmu.</p>
         </div>
         <button 
           onClick={() => setShowAddForm(!showAddForm)}
           className="px-5 py-2.5 bg-green-700 hover:bg-green-800 text-white text-sm font-semibold rounded-lg shadow-sm transition-colors flex items-center gap-2"
         >
-          {showAddForm ? 'Close Form' : '+ Add Activity'}
+          {showAddForm ? 'Tutup Form' : '+ Tambah Aktivitas'}
         </button>
       </div>
 
-      <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col md:flex-row items-center gap-4 mb-8">
-        <div className="relative flex-1 w-full">
+      <div className="bg-transparent md:bg-white md:p-4 rounded-2xl md:border md:border-gray-100 md:shadow-sm flex flex-col gap-4 mb-4 md:mb-8">
+        <div className="relative w-full">
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">🔍</span>
           <input 
             type="text" 
-            placeholder="Search quests..." 
+            placeholder="Cari aktivitas..." 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-green-500 outline-none"
+            className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none text-sm shadow-sm"
           />
         </div>
-        <div className="flex gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 hide-scrollbar">
-          {categories.map(cat => (
-            <button
-              key={cat}
-              onClick={() => setFilterCategory(cat)}
-              className={`px-4 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-colors ${
-                filterCategory === cat 
-                ? 'bg-blue-100 text-blue-700' 
-                : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
+        
+        <div className="flex justify-between items-center">
+          <div className="flex gap-2 w-full overflow-x-auto pb-2 md:pb-0 hide-scrollbar" style={{ scrollbarWidth: 'none' }}>
+            {categories.map(cat => (
+              <button
+                key={cat}
+                onClick={() => setFilterCategory(cat)}
+                className={`px-4 py-2 rounded-full text-sm whitespace-nowrap transition-colors border ${
+                  filterCategory === cat 
+                  ? 'bg-[#4CAF50] text-white border-transparent shadow-sm font-medium' 
+                  : 'bg-white text-gray-700 hover:bg-gray-50 border-gray-200 font-medium'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
+        
+        <div className="flex justify-end text-sm text-[#0F766E] font-bold md:hidden">
+          <span className="flex items-center gap-1 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z" />
+            </svg>
+            Filter Status
+          </span>
         </div>
       </div>
 
@@ -159,38 +171,38 @@ export default function ActivityManager({ initialActivities }: { initialActiviti
       )}
 
       {/* Quest Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         {pendingQuests.map(activity => (
-          <div key={activity.id} className="bg-white rounded-2xl border-2 border-transparent hover:border-green-100 shadow-sm overflow-hidden flex flex-col relative group transition-all">
-             <div className="absolute top-0 left-0 w-1 h-full bg-green-500 rounded-l-2xl"></div>
-             <div className="p-6 flex-1 flex flex-col">
-               <div className="flex justify-between items-start mb-4">
-                 <div className="flex items-center gap-2">
-                   <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">
-                     {getCategoryIcon(activity.category)}
+          <div key={activity.id} className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden flex flex-col relative group transition-all">
+             <div className="absolute top-0 left-0 w-1.5 h-full bg-[#0F766E] rounded-l-2xl"></div>
+             <div className="p-5 flex-1 flex flex-col pl-6">
+               <div className="flex justify-between items-center mb-3">
+                 <div className="flex items-center gap-3">
+                   <span className="text-xs font-bold text-[#0F766E] bg-blue-50 px-2 py-0.5 rounded-md">{activity.category}</span>
+                   <div className="flex items-center gap-1 text-xs text-gray-400 font-medium">
+                     <span>⏱</span> 
+                     {activity.difficulty === 'Easy' ? '30m' : activity.difficulty === 'Medium' ? '45m' : '2h'}
                    </div>
-                   <span className="text-xs font-bold text-gray-600 bg-gray-100 px-2.5 py-1 rounded-full">{activity.category}</span>
                  </div>
                  <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${getDifficultyColor(activity.difficulty)}`}>
-                   {activity.difficulty === 'Medium' ? 'Normal' : activity.difficulty}
+                   {activity.difficulty === 'Hard' && '🔥 '}{activity.difficulty}
                  </span>
                </div>
                
-               <h3 className="text-xl font-bold text-gray-900 mb-2">{activity.title}</h3>
-               <p className="text-sm text-gray-500 line-clamp-2 mb-6 flex-1">
-                 {activity.description || 'Complete this task to earn district XP.'}
+               <h3 className="text-[19px] font-bold text-[#111827] mb-2 leading-tight">{activity.title}</h3>
+               <p className="text-[15px] text-gray-600 line-clamp-3 mb-4 flex-1">
+                 {activity.description || 'Selesaikan tugas ini untuk mendapatkan XP distrik.'}
                </p>
                
-               <div className="flex items-center justify-between pt-4 border-t border-gray-50">
-                 <div className="flex items-center gap-1.5 text-xs font-bold text-gray-500">
-                   <span>⏱</span> 
-                   {activity.difficulty === 'Easy' ? '30 mins' : activity.difficulty === 'Medium' ? '45 mins' : '120 mins'}
+               <div className="flex items-center justify-between mt-auto">
+                 <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-xs font-bold text-blue-700">
+                   Me
                  </div>
                  <button 
                    onClick={() => handleComplete(activity.id, activity.category, activity.difficulty)}
-                   className="px-4 py-1.5 bg-green-700 hover:bg-green-800 text-white text-xs font-bold rounded-md transition-colors flex items-center gap-1"
+                   className="px-5 py-2 bg-[#047857] hover:bg-[#065f46] text-white text-sm font-bold rounded-lg transition-colors flex items-center gap-2"
                  >
-                   <span>▶</span> Start
+                   <span>▶</span> Mulai
                  </button>
                </div>
              </div>
@@ -208,32 +220,37 @@ export default function ActivityManager({ initialActivities }: { initialActiviti
         
         {/* Completed Quests */}
         {completedQuests.map(activity => (
-          <div key={activity.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col relative opacity-60">
-             <div className="p-6 flex-1 flex flex-col grayscale">
-               <div className="flex justify-between items-start mb-4">
-                 <div className="flex items-center gap-2">
-                   <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-400">
-                     {getCategoryIcon(activity.category)}
+          <div key={activity.id} className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden flex flex-col relative">
+             <div className="absolute top-0 left-0 w-1.5 h-full bg-[#4CAF50] rounded-l-2xl"></div>
+             <div className="p-5 flex-1 flex flex-col pl-6">
+               <div className="flex justify-between items-center mb-3">
+                 <div className="flex items-center gap-3">
+                   <span className="text-xs font-bold text-green-700 bg-green-50 px-2 py-0.5 rounded-md">{activity.category}</span>
+                   <div className="flex items-center gap-1 text-xs text-gray-400 font-medium">
+                     <span>⏱</span> 
+                     {activity.difficulty === 'Easy' ? '30m' : activity.difficulty === 'Medium' ? '45m' : '2h'}
                    </div>
-                   <span className="text-xs font-bold text-gray-500 bg-gray-100 px-2.5 py-1 rounded-full">{activity.category}</span>
                  </div>
-                 <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-gray-100 text-gray-500">
-                   {activity.difficulty === 'Medium' ? 'Normal' : activity.difficulty}
+                 <span className={`text-xs font-bold px-2.5 py-1 rounded-full bg-gray-100 text-gray-600`}>
+                   {activity.difficulty}
                  </span>
                </div>
                
-               <h3 className="text-xl font-bold text-gray-400 mb-2 line-through">{activity.title}</h3>
-               <p className="text-sm text-gray-400 line-clamp-2 mb-6 flex-1">
-                 {activity.description || 'Task completed.'}
+               <h3 className="text-[19px] font-bold text-[#111827] mb-2 leading-tight">{activity.title}</h3>
+               <p className="text-[15px] text-gray-600 line-clamp-3 mb-4 flex-1">
+                 {activity.description || 'Tugas telah selesai.'}
                </p>
                
-               <div className="flex items-center justify-between pt-4 border-t border-gray-50">
-                 <div className="flex items-center gap-1.5 text-xs font-bold text-gray-400">
-                   <span>✓</span> Done
+               <div className="flex items-center justify-between mt-auto">
+                 <div className="flex items-center gap-1.5 text-sm font-bold text-[#047857]">
+                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                   </svg>
+                   Selesai Hari Ini
                  </div>
-                 <div className="px-3 py-1 bg-green-50 text-green-600 text-xs font-bold rounded-md flex items-center gap-1">
-                   <span>✓</span> Completed
-                 </div>
+                 <button className="text-sm font-bold text-[#0F766E]">
+                   Detail
+                 </button>
                </div>
              </div>
           </div>
@@ -243,8 +260,8 @@ export default function ActivityManager({ initialActivities }: { initialActiviti
       {filteredActivities.length === 0 && (
         <div className="text-center py-20 bg-white rounded-2xl border border-gray-100 shadow-sm mt-4">
           <div className="text-4xl mb-4">📭</div>
-          <h3 className="text-lg font-bold text-gray-900 mb-1">No Quests Found</h3>
-          <p className="text-gray-500 text-sm">Add a new activity or change your filters.</p>
+          <h3 className="text-lg font-bold text-gray-900 mb-1">Misi Tidak Ditemukan</h3>
+          <p className="text-gray-500 text-sm">Tambahkan aktivitas baru atau ubah filtermu.</p>
         </div>
       )}
     </div>

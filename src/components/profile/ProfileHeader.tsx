@@ -14,12 +14,12 @@ export default function ProfileHeader({ profile, memberSince }: ProfileHeaderPro
   return (
     <>
       <div className="bg-gradient-to-r from-blue-50 to-teal-50 rounded-3xl p-8 mb-8 border border-blue-100/50 shadow-sm relative overflow-hidden">
-        <div className="absolute top-8 right-8">
+        <div className="absolute top-8 right-8 z-20">
           <button 
             onClick={() => setIsEditModalOpen(true)}
             className="px-4 py-2 bg-white/80 hover:bg-white text-gray-700 text-sm font-semibold rounded-lg flex items-center gap-2 backdrop-blur-sm transition-colors border border-gray-100 shadow-sm"
           >
-            <span>✎</span> Edit Profile
+            <span>✎</span> Edit Profil
           </button>
         </div>
         <div className="flex flex-col md:flex-row items-start md:items-center gap-8 relative z-10">
@@ -30,17 +30,16 @@ export default function ProfileHeader({ profile, memberSince }: ProfileHeaderPro
              {!profile?.avatar_url && <span className="text-5xl">👤</span>}
           </div>
           <div className="flex-1">
-            <h1 className="text-4xl font-extrabold text-gray-900 mb-1">{profile?.username || 'Focus Master'}</h1>
-            <p className="text-blue-600 font-medium mb-4">@{profile?.username?.toLowerCase().replace(/\s+/g, '_') || 'user'}_focus</p>
+            <h1 className="text-4xl font-extrabold text-gray-900 mb-4">{profile?.username || 'Fokus Master'}</h1>
             <p className="text-gray-600 mb-6 max-w-2xl leading-relaxed">
-              Digital gardener and productivity enthusiast. Cultivating good habits one quest at a time. Trying to balance deep work with restorative breaks.
+              {profile?.bio || '-'}
             </p>
             <div className="flex gap-4">
               <div className="px-4 py-2 bg-white rounded-full text-sm font-semibold text-gray-600 shadow-sm flex items-center gap-2 border border-gray-100">
-                <span>📅</span> Member since {memberSince}
+                <span>📅</span> Bergabung sejak {memberSince}
               </div>
               <div className="px-4 py-2 bg-white rounded-full text-sm font-semibold text-gray-600 shadow-sm flex items-center gap-2 border border-gray-100">
-                <span className="text-orange-500">🔥</span> {profile?.streak || 0} Day Streak
+                <span className="text-orange-500">🔥</span> {profile?.streak || 0} Hari Beruntun
               </div>
             </div>
           </div>
@@ -51,6 +50,7 @@ export default function ProfileHeader({ profile, memberSince }: ProfileHeaderPro
         <EditProfileModal 
           currentUsername={profile?.username || ''} 
           currentAvatarUrl={profile?.avatar_url || null}
+          currentBio={profile?.bio || ''}
           onClose={() => setIsEditModalOpen(false)} 
         />
       )}

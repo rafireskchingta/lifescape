@@ -22,9 +22,9 @@ export default async function ActivitiesPage() {
   return (
     <div>
       <div className="max-w-5xl mx-auto">
-        <header className="mb-8 border-b border-gray-200 pb-4">
-          <h1 className="text-3xl font-bold">Activity Management</h1>
-          <p className="text-gray-500 mt-1">Track your daily tasks to earn XP and build your LifeScape.</p>
+        <header className="hidden md:block mb-8 border-b border-gray-200 pb-4">
+          <h1 className="text-3xl font-bold">Manajemen Aktivitas</h1>
+          <p className="text-gray-500 mt-1">Lacak tugas harianmu untuk mendapatkan XP dan membangun LifeScape.</p>
         </header>
 
         <ActivityManager initialActivities={activities || []} />

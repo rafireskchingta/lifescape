@@ -13,11 +13,24 @@ export default async function ProfilePage() {
   }
 
   // Fetch Profile
-  const { data: profile } = await supabase
+  const { data: profileData } = await supabase
     .from('profiles')
     .select('*')
     .eq('id', authData.user.id)
-    .single()
+    .maybeSingle()
+
+  const profile = profileData || {
+    username: null as string | null,
+    bio: null as string | null,
+    xp: 0,
+    streak: 0,
+    avatar_url: null as string | null,
+    created_at: authData.user.created_at
+  }
+
+  if (!profile.username) {
+    profile.username = authData.user.user_metadata?.username || authData.user.email?.split('@')[0]
+  }
 
   // Fetch Badges
   const { data: userBadges } = await supabase

@@ -1,20 +1,19 @@
 /**
  * Menghitung Level dari total XP.
- * Formula: Level = floor((sqrt(225 + 4 * XP) - 5) / 10) + 1
+ * Formula: Level = floor(XP / 100) + 1
  */
 export const calculateLevel = (xp: number): number => {
   if (xp < 0) return 1;
-  const levelFloat = (Math.sqrt(225 + 4 * xp) - 5) / 10;
-  return Math.floor(levelFloat) + 1;
+  return Math.floor(xp / 100) + 1;
 };
 
 /**
  * Menghitung batas XP untuk naik ke Level tertentu.
+ * Karena tiap level butuh 100 XP, batas bawah level L adalah (L - 1) * 100.
  */
 export const getXpForLevel = (level: number): number => {
   if (level <= 1) return 0;
-  const l = level - 1; 
-  return 25 * l * l + 25 * l - 50;
+  return (level - 1) * 100;
 };
 
 /**
@@ -34,8 +33,8 @@ export const getVisualStage = (level: number): number => {
 export const getDifficultyXp = (difficulty: string): number => {
   switch (difficulty) {
     case 'Easy': return 10;
-    case 'Medium': return 25;
-    case 'Hard': return 50;
+    case 'Medium': return 20;
+    case 'Hard': return 40;
     default: return 0;
   }
 };
